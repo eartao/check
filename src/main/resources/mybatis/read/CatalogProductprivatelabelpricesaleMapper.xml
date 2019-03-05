@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.read.CatalogProductprivatelabelpricesaleMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.generator.pojo.CatalogProductprivatelabelpricesale">
+    <result column="pf_id" jdbcType="VARCHAR" property="pfId" />
+    <result column="privateLabelID" jdbcType="VARCHAR" property="privatelabelid" />
+    <result column="gdshop_serverGroupID" jdbcType="VARCHAR" property="gdshopServergroupid" />
+    <result column="gdshop_variant_price_type_id" jdbcType="VARCHAR" property="gdshopVariantPriceTypeId" />
+    <result column="gdshop_currencyType" jdbcType="VARCHAR" property="gdshopCurrencytype" />
+    <result column="sale_start" jdbcType="VARCHAR" property="saleStart" />
+    <result column="sale_end" jdbcType="VARCHAR" property="saleEnd" />
+    <result column="sale_price" jdbcType="VARCHAR" property="salePrice" />
+    <result column="createDate" jdbcType="VARCHAR" property="createdate" />
+    <result column="priceStartDate" jdbcType="VARCHAR" property="pricestartdate" />
+    <result column="priceNewSaleExpirationDate" jdbcType="VARCHAR" property="pricenewsaleexpirationdate" />
+    <result column="priceBasketExpirationDate" jdbcType="VARCHAR" property="pricebasketexpirationdate" />
+    <result column="rowVersionID" jdbcType="VARCHAR" property="rowversionid" />
+  </resultMap>
+
+
+  <select id="getPriceFromSql" parameterType="java.util.Map" resultType="com.example.demo.generator.pojo.ProductPrice">
+    select top 1 s.sale_price salePrice,l.list_price listPrice ,c.defaultMarketId market
+    from catalog_productPrivateLabelPriceSale s
+    left join catalog_productResellerTypePrice l
+    on s.pf_id = l.pf_id and s.gdshop_currencyType = l.gdshop_currencyType
+    left join catalog_countrySite c
+    on s.gdshop_currencyType = c.defaultCurrencyType
+    where l.privateLabelResellerTypeID = 1 and s.pf_id=#{pfId} and c.defaultMarketId=#{market}
+    <!--select  s.sale_price salePrice,l.list_price listPrice ,c.defaultMarketId market-->
+    <!--from catalog_productPrivateLabelPriceSale s-->
+    <!--left join catalog_productResellerTypePrice l-->
+    <!--on s.pf_id = l.pf_id and s.gdshop_currencyType = l.gdshop_currencyType-->
+    <!--left join catalog_countrySite c-->
+    <!--on s.gdshop_currencyType = c.defaultCurrencyType-->
+    <!--where l.privateLabelResellerTypeID = 1 and s.pf_id=#{pfId} and c.defaultMarketId=#{market} limit 1-->
+  </select>
+
+  <insert id="insert" parameterType="com.example.demo.generator.pojo.CatalogProductprivatelabelpricesale">
+    insert into catalog_productPrivateLabelPriceSale (pf_id, privateLabelID, gdshop_serverGroupID, 
+      gdshop_variant_price_type_id, gdshop_currencyType, 
+      sale_start, sale_end, sale_price, 
+      createDate, priceStartDate, priceNewSaleExpirationDate, 
+      priceBasketExpirationDate, rowVersionID
+      )
+    values (#{pfId,jdbcType=VARCHAR}, #{privatelabelid,jdbcType=VARCHAR}, #{gdshopServergroupid,jdbcType=VARCHAR}, 
+      #{gdshopVariantPriceTypeId,jdbcType=VARCHAR}, #{gdshopCurrencytype,jdbcType=VARCHAR}, 
+      #{saleStart,jdbcType=VARCHAR}, #{saleEnd,jdbcType=VARCHAR}, #{salePrice,jdbcType=VARCHAR}, 
+      #{createdate,jdbcType=VARCHAR}, #{pricestartdate,jdbcType=VARCHAR}, #{pricenewsaleexpirationdate,jdbcType=VARCHAR}, 
+      #{pricebasketexpirationdate,jdbcType=VARCHAR}, #{rowversionid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.generator.pojo.CatalogProductprivatelabelpricesale">
+    insert into catalog_productPrivateLabelPriceSale
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pfId != null">
+        pf_id,
+      </if>
+      <if test="privatelabelid != null">
+        privateLabelID,
+      </if>
+      <if test="gdshopServergroupid != null">
+        gdshop_serverGroupID,
+      </if>
+      <if test="gdshopVariantPriceTypeId != null">
+        gdshop_variant_price_type_id,
+      </if>
+      <if test="gdshopCurrencytype != null">
+        gdshop_currencyType,
+      </if>
+      <if test="saleStart != null">
+        sale_start,
+      </if>
+      <if test="saleEnd != null">
+        sale_end,
+      </if>
+      <if test="salePrice != null">
+        sale_price,
+      </if>
+      <if test="createdate != null">
+        createDate,
+      </if>
+      <if test="pricestartdate != null">
+        priceStartDate,
+      </if>
+      <if test="pricenewsaleexpirationdate != null">
+        priceNewSaleExpirationDate,
+      </if>
+      <if test="pricebasketexpirationdate != null">
+        priceBasketExpirationDate,
+      </if>
+      <if test="rowversionid != null">
+        rowVersionID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pfId != null">
+        #{pfId,jdbcType=VARCHAR},
+      </if>
+      <if test="privatelabelid != null">
+        #{privatelabelid,jdbcType=VARCHAR},
+      </if>
+      <if test="gdshopServergroupid != null">
+        #{gdshopServergroupid,jdbcType=VARCHAR},
+      </if>
+      <if test="gdshopVariantPriceTypeId != null">
+        #{gdshopVariantPriceTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="gdshopCurrencytype != null">
+        #{gdshopCurrencytype,jdbcType=VARCHAR},
+      </if>
+      <if test="saleStart != null">
+        #{saleStart,jdbcType=VARCHAR},
+      </if>
+      <if test="saleEnd != null">
+        #{saleEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="salePrice != null">
+        #{salePrice,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null">
+        #{createdate,jdbcType=VARCHAR},
+      </if>
+      <if test="pricestartdate != null">
+        #{pricestartdate,jdbcType=VARCHAR},
+      </if>
+      <if test="pricenewsaleexpirationdate != null">
+        #{pricenewsaleexpirationdate,jdbcType=VARCHAR},
+      </if>
+      <if test="pricebasketexpirationdate != null">
+        #{pricebasketexpirationdate,jdbcType=VARCHAR},
+      </if>
+      <if test="rowversionid != null">
+        #{rowversionid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

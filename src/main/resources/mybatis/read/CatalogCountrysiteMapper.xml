@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.read.CatalogCountrysiteMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.generator.pojo.CatalogCountrysite">
+    <result column="catalog_countrySite" jdbcType="VARCHAR" property="catalogCountrysite" />
+    <result column="catalog_priceGroupID" jdbcType="VARCHAR" property="catalogPricegroupid" />
+    <result column="countrySiteDescription" jdbcType="VARCHAR" property="countrysitedescription" />
+    <result column="isActive" jdbcType="VARCHAR" property="isactive" />
+    <result column="internalOnly" jdbcType="VARCHAR" property="internalonly" />
+    <result column="defaultMarketID" jdbcType="VARCHAR" property="defaultmarketid" />
+    <result column="defaultCurrencyType" jdbcType="VARCHAR" property="defaultcurrencytype" />
+    <result column="createDate" jdbcType="VARCHAR" property="createdate" />
+    <result column="modifyDate" jdbcType="VARCHAR" property="modifydate" />
+    <result column="displayTaxesAndFees" jdbcType="VARCHAR" property="displaytaxesandfees" />
+    <result column="taxCountry" jdbcType="VARCHAR" property="taxcountry" />
+  </resultMap>
+  <insert id="insert" parameterType="com.example.demo.generator.pojo.CatalogCountrysite">
+    insert into catalog_countrySite (catalog_countrySite, catalog_priceGroupID, 
+      countrySiteDescription, isActive, internalOnly, 
+      defaultMarketID, defaultCurrencyType, createDate, 
+      modifyDate, displayTaxesAndFees, taxCountry
+      )
+    values (#{catalogCountrysite,jdbcType=VARCHAR}, #{catalogPricegroupid,jdbcType=VARCHAR}, 
+      #{countrysitedescription,jdbcType=VARCHAR}, #{isactive,jdbcType=VARCHAR}, #{internalonly,jdbcType=VARCHAR}, 
+      #{defaultmarketid,jdbcType=VARCHAR}, #{defaultcurrencytype,jdbcType=VARCHAR}, #{createdate,jdbcType=VARCHAR}, 
+      #{modifydate,jdbcType=VARCHAR}, #{displaytaxesandfees,jdbcType=VARCHAR}, #{taxcountry,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.generator.pojo.CatalogCountrysite">
+    insert into catalog_countrySite
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="catalogCountrysite != null">
+        catalog_countrySite,
+      </if>
+      <if test="catalogPricegroupid != null">
+        catalog_priceGroupID,
+      </if>
+      <if test="countrysitedescription != null">
+        countrySiteDescription,
+      </if>
+      <if test="isactive != null">
+        isActive,
+      </if>
+      <if test="internalonly != null">
+        internalOnly,
+      </if>
+      <if test="defaultmarketid != null">
+        defaultMarketID,
+      </if>
+      <if test="defaultcurrencytype != null">
+        defaultCurrencyType,
+      </if>
+      <if test="createdate != null">
+        createDate,
+      </if>
+      <if test="modifydate != null">
+        modifyDate,
+      </if>
+      <if test="displaytaxesandfees != null">
+        displayTaxesAndFees,
+      </if>
+      <if test="taxcountry != null">
+        taxCountry,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="catalogCountrysite != null">
+        #{catalogCountrysite,jdbcType=VARCHAR},
+      </if>
+      <if test="catalogPricegroupid != null">
+        #{catalogPricegroupid,jdbcType=VARCHAR},
+      </if>
+      <if test="countrysitedescription != null">
+        #{countrysitedescription,jdbcType=VARCHAR},
+      </if>
+      <if test="isactive != null">
+        #{isactive,jdbcType=VARCHAR},
+      </if>
+      <if test="internalonly != null">
+        #{internalonly,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultmarketid != null">
+        #{defaultmarketid,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultcurrencytype != null">
+        #{defaultcurrencytype,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null">
+        #{createdate,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null">
+        #{modifydate,jdbcType=VARCHAR},
+      </if>
+      <if test="displaytaxesandfees != null">
+        #{displaytaxesandfees,jdbcType=VARCHAR},
+      </if>
+      <if test="taxcountry != null">
+        #{taxcountry,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

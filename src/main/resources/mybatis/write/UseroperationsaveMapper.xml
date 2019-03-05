@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.write.UseroperationsaveMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.generator.pojo.Useroperationsave">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="pfId" jdbcType="VARCHAR" property="pfid" />
+    <result column="productName" jdbcType="VARCHAR" property="productname" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="saleXpath" jdbcType="VARCHAR" property="salexpath" />
+    <result column="listXpath" jdbcType="VARCHAR" property="listxpath" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, pfId, productName, url, saleXpath, listXpath
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Useroperationsave
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from Useroperationsave
+    where productName = #{productName,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectLable"  resultMap="BaseResultMap">
+    <!--select-->
+    <!--<include refid="Base_Column_List" />-->
+    <!--from Useroperationsave-->
+    <!--order by id desc limit 10-->
+    select top 10
+    <include refid="Base_Column_List" />
+    from Useroperationsave
+    order by id desc
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from Useroperationsave
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.generator.pojo.Useroperationsave">
+    <!--SET IDENTITY_INSERT  Useroperationsave on-->
+    insert into Useroperationsave (pfId, productName,
+      url, saleXpath, listXpath
+      )
+    values (#{pfid,jdbcType=VARCHAR}, #{productname,jdbcType=VARCHAR},
+      #{url,jdbcType=VARCHAR}, #{salexpath,jdbcType=VARCHAR}, #{listxpath,jdbcType=VARCHAR}
+      )
+    <!--SET IDENTITY_INSERT  Useroperationsave off-->
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.generator.pojo.Useroperationsave">
+    insert into Useroperationsave
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="pfid != null">
+        pfId,
+      </if>
+      <if test="productname != null">
+        productName,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="salexpath != null">
+        saleXpath,
+      </if>
+      <if test="listxpath != null">
+        listXpath,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="pfid != null">
+        #{pfid,jdbcType=VARCHAR},
+      </if>
+      <if test="productname != null">
+        #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="salexpath != null">
+        #{salexpath,jdbcType=VARCHAR},
+      </if>
+      <if test="listxpath != null">
+        #{listxpath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.generator.pojo.Useroperationsave">
+    update Useroperationsave
+    <set>
+      <if test="pfid != null">
+        pfId = #{pfid,jdbcType=VARCHAR},
+      </if>
+      <if test="productname != null">
+        productName = #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="salexpath != null">
+        saleXpath = #{salexpath,jdbcType=VARCHAR},
+      </if>
+      <if test="listxpath != null">
+        listXpath = #{listxpath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.generator.pojo.Useroperationsave">
+    update Useroperationsave
+    set pfId = #{pfid,jdbcType=VARCHAR},
+      productName = #{productname,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      saleXpath = #{salexpath,jdbcType=VARCHAR},
+      listXpath = #{listxpath,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

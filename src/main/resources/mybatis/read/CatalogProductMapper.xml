@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.read.CatalogProductMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.generator.pojo.CatalogProduct">
+        <result column="pf_id" jdbcType="VARCHAR" property="pfId"/>
+        <result column="gdshop_product_typeId" jdbcType="VARCHAR" property="gdshopProductTypeid"/>
+        <result column="marketPlaceShopID" jdbcType="VARCHAR" property="marketplaceshopid"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="description1" jdbcType="VARCHAR" property="description1"/>
+        <result column="description2" jdbcType="VARCHAR" property="description2"/>
+        <result column="recurring_payment" jdbcType="VARCHAR" property="recurringPayment"/>
+        <result column="license_agreement" jdbcType="VARCHAR" property="licenseAgreement"/>
+        <result column="file_size" jdbcType="VARCHAR" property="fileSize"/>
+        <result column="run_time" jdbcType="VARCHAR" property="runTime"/>
+        <result column="trans_method" jdbcType="VARCHAR" property="transMethod"/>
+        <result column="overridePriceRequired" jdbcType="VARCHAR" property="overridepricerequired"/>
+        <result column="isRenewalPriceLocked" jdbcType="VARCHAR" property="isrenewalpricelocked"/>
+        <result column="isBasketQuantityLocked" jdbcType="VARCHAR" property="isbasketquantitylocked"/>
+        <result column="basketAgeLimit" jdbcType="VARCHAR" property="basketagelimit"/>
+        <result column="prePaidDiscountLevel" jdbcType="VARCHAR" property="prepaiddiscountlevel"/>
+        <result column="gdshop_shopper_payment_type_id" jdbcType="VARCHAR" property="gdshopShopperPaymentTypeId"/>
+        <result column="ICANNFee" jdbcType="VARCHAR" property="icannfee"/>
+        <result column="numberOfPeriods" jdbcType="VARCHAR" property="numberofperiods"/>
+        <result column="gdshop_product_period_description_mapID" jdbcType="VARCHAR"
+                property="gdshopProductPeriodDescriptionMapid"/>
+        <result column="gdshop_product_quantity_description_mapID" jdbcType="VARCHAR"
+                property="gdshopProductQuantityDescriptionMapid"/>
+        <result column="gdshop_productDefaultQuantityTypeID" jdbcType="VARCHAR"
+                property="gdshopProductdefaultquantitytypeid"/>
+        <result column="defaultQuantityValue" jdbcType="VARCHAR" property="defaultquantityvalue"/>
+        <result column="gdshop_productDefaultDurationTypeID" jdbcType="VARCHAR"
+                property="gdshopProductdefaultdurationtypeid"/>
+        <result column="defaultDurationValue" jdbcType="VARCHAR" property="defaultdurationvalue"/>
+        <result column="xpath_query" jdbcType="VARCHAR" property="xpathQuery"/>
+        <result column="gdshop_product_xsdID" jdbcType="VARCHAR" property="gdshopProductXsdid"/>
+        <result column="registryFee" jdbcType="VARCHAR" property="registryfee"/>
+        <result column="download_filepath" jdbcType="VARCHAR" property="downloadFilepath"/>
+        <result column="info_link" jdbcType="VARCHAR" property="infoLink"/>
+        <result column="additional_info_loc" jdbcType="VARCHAR" property="additionalInfoLoc"/>
+        <result column="modifyDate" jdbcType="VARCHAR" property="modifydate"/>
+        <result column="min_shipping" jdbcType="VARCHAR" property="minShipping"/>
+        <result column="rowVersionID" jdbcType="VARCHAR" property="rowversionid"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        pf_id, name, description1, description2
+    </sql>
+    <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from catalog_product
+        where name like '%'+#{name}+'%'
+        <!--where name like "%"#{name}"%"-->
+    </select>
+
+    <select id="selectByNameWithMultipleKeyword" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        pf_id, name, description1, description2
+        FROM catalog_product
+        WHERE 1=1 ${whereSql}
+    </select>
+
+    <insert id="insert" parameterType="com.example.demo.generator.pojo.CatalogProduct">
+        insert into catalog_product (pf_id, gdshop_product_typeId, marketPlaceShopID,
+        name, description1, description2,
+        recurring_payment, license_agreement, file_size,
+        run_time, trans_method, overridePriceRequired,
+        isRenewalPriceLocked, isBasketQuantityLocked,
+        basketAgeLimit, prePaidDiscountLevel, gdshop_shopper_payment_type_id,
+        ICANNFee, numberOfPeriods, gdshop_product_period_description_mapID,
+        gdshop_product_quantity_description_mapID, gdshop_productDefaultQuantityTypeID,
+        defaultQuantityValue, gdshop_productDefaultDurationTypeID,
+        defaultDurationValue, xpath_query, gdshop_product_xsdID,
+        registryFee, download_filepath, info_link,
+        additional_info_loc, modifyDate, min_shipping,
+        rowVersionID)
+        values (#{pfId,jdbcType=VARCHAR}, #{gdshopProductTypeid,jdbcType=VARCHAR},
+        #{marketplaceshopid,jdbcType=VARCHAR},
+        #{name,jdbcType=VARCHAR}, #{description1,jdbcType=VARCHAR}, #{description2,jdbcType=VARCHAR},
+        #{recurringPayment,jdbcType=VARCHAR}, #{licenseAgreement,jdbcType=VARCHAR}, #{fileSize,jdbcType=VARCHAR},
+        #{runTime,jdbcType=VARCHAR}, #{transMethod,jdbcType=VARCHAR}, #{overridepricerequired,jdbcType=VARCHAR},
+        #{isrenewalpricelocked,jdbcType=VARCHAR}, #{isbasketquantitylocked,jdbcType=VARCHAR},
+        #{basketagelimit,jdbcType=VARCHAR}, #{prepaiddiscountlevel,jdbcType=VARCHAR},
+        #{gdshopShopperPaymentTypeId,jdbcType=VARCHAR},
+        #{icannfee,jdbcType=VARCHAR}, #{numberofperiods,jdbcType=VARCHAR},
+        #{gdshopProductPeriodDescriptionMapid,jdbcType=VARCHAR},
+        #{gdshopProductQuantityDescriptionMapid,jdbcType=VARCHAR},
+        #{gdshopProductdefaultquantitytypeid,jdbcType=VARCHAR},
+        #{defaultquantityvalue,jdbcType=VARCHAR}, #{gdshopProductdefaultdurationtypeid,jdbcType=VARCHAR},
+        #{defaultdurationvalue,jdbcType=VARCHAR}, #{xpathQuery,jdbcType=VARCHAR},
+        #{gdshopProductXsdid,jdbcType=VARCHAR},
+        #{registryfee,jdbcType=VARCHAR}, #{downloadFilepath,jdbcType=VARCHAR}, #{infoLink,jdbcType=VARCHAR},
+        #{additionalInfoLoc,jdbcType=VARCHAR}, #{modifydate,jdbcType=VARCHAR}, #{minShipping,jdbcType=VARCHAR},
+        #{rowversionid,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.example.demo.generator.pojo.CatalogProduct">
+        insert into catalog_product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pfId != null">
+                pf_id,
+            </if>
+            <if test="gdshopProductTypeid != null">
+                gdshop_product_typeId,
+            </if>
+            <if test="marketplaceshopid != null">
+                marketPlaceShopID,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="description1 != null">
+                description1,
+            </if>
+            <if test="description2 != null">
+                description2,
+            </if>
+            <if test="recurringPayment != null">
+                recurring_payment,
+            </if>
+            <if test="licenseAgreement != null">
+                license_agreement,
+            </if>
+            <if test="fileSize != null">
+                file_size,
+            </if>
+            <if test="runTime != null">
+                run_time,
+            </if>
+            <if test="transMethod != null">
+                trans_method,
+            </if>
+            <if test="overridepricerequired != null">
+                overridePriceRequired,
+            </if>
+            <if test="isrenewalpricelocked != null">
+                isRenewalPriceLocked,
+            </if>
+            <if test="isbasketquantitylocked != null">
+                isBasketQuantityLocked,
+            </if>
+            <if test="basketagelimit != null">
+                basketAgeLimit,
+            </if>
+            <if test="prepaiddiscountlevel != null">
+                prePaidDiscountLevel,
+            </if>
+            <if test="gdshopShopperPaymentTypeId != null">
+                gdshop_shopper_payment_type_id,
+            </if>
+            <if test="icannfee != null">
+                ICANNFee,
+            </if>
+            <if test="numberofperiods != null">
+                numberOfPeriods,
+            </if>
+            <if test="gdshopProductPeriodDescriptionMapid != null">
+                gdshop_product_period_description_mapID,
+            </if>
+            <if test="gdshopProductQuantityDescriptionMapid != null">
+                gdshop_product_quantity_description_mapID,
+            </if>
+            <if test="gdshopProductdefaultquantitytypeid != null">
+                gdshop_productDefaultQuantityTypeID,
+            </if>
+            <if test="defaultquantityvalue != null">
+                defaultQuantityValue,
+            </if>
+            <if test="gdshopProductdefaultdurationtypeid != null">
+                gdshop_productDefaultDurationTypeID,
+            </if>
+            <if test="defaultdurationvalue != null">
+                defaultDurationValue,
+            </if>
+            <if test="xpathQuery != null">
+                xpath_query,
+            </if>
+            <if test="gdshopProductXsdid != null">
+                gdshop_product_xsdID,
+            </if>
+            <if test="registryfee != null">
+                registryFee,
+            </if>
+            <if test="downloadFilepath != null">
+                download_filepath,
+            </if>
+            <if test="infoLink != null">
+                info_link,
+            </if>
+            <if test="additionalInfoLoc != null">
+                additional_info_loc,
+            </if>
+            <if test="modifydate != null">
+                modifyDate,
+            </if>
+            <if test="minShipping != null">
+                min_shipping,
+            </if>
+            <if test="rowversionid != null">
+                rowVersionID,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pfId != null">
+                #{pfId,jdbcType=VARCHAR},
+            </if>
+            <if test="gdshopProductTypeid != null">
+                #{gdshopProductTypeid,jdbcType=VARCHAR},
+            </if>
+            <if test="marketplaceshopid != null">
+                #{marketplaceshopid,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="description1 != null">
+                #{description1,jdbcType=VARCHAR},
+            </if>
+            <if test="description2 != null">
+                #{description2,jdbcType=VARCHAR},
+            </if>
+            <if test="recurringPayment != null">
+                #{recurringPayment,jdbcType=VARCHAR},
+            </if>
+            <if test="licenseAgreement != null">
+                #{licenseAgreement,jdbcType=VARCHAR},
+            </if>
+            <if test="fileSize != null">
+                #{fileSize,jdbcType=VARCHAR},
+            </if>
+            <if test="runTime != null">
+                #{runTime,jdbcType=VARCHAR},
+            </if>
+            <if test="transMethod != null">
+                #{transMethod,jdbcType=VARCHAR},
+            </if>
+            <if test="overridepricerequired != null">
+                #{overridepricerequired,jdbcType=VARCHAR},
+            </if>
+            <if test="isrenewalpricelocked != null">
+                #{isrenewalpricelocked,jdbcType=VARCHAR},
+            </if>
+            <if test="isbasketquantitylocked != null">
+                #{isbasketquantitylocked,jdbcType=VARCHAR},
+            </if>
+            <if test="basketagelimit != null">
+                #{basketagelimit,jdbcType=VARCHAR},
+            </if>
+            <if test="prepaiddiscountlevel != null">
+                #{prepaiddiscountlevel,jdbcType=VARCHAR},
+            </if>
+            <if test="gdshopShopperPaymentTypeId != null">
+                #{gdshopShopperPaymentTypeId,jdbcType=VARCHAR},
+            </if>
+            <if test="icannfee != null">
+                #{icannfee,jdbcType=VARCHAR},
+            </if>
+            <if test="numberofperiods != null">
+                #{numberofperiods,jdbcType=VARCHAR},
+            </if>
+            <if test="gdshopProductPeriodDescriptionMapid != null">
+                #{gdshopProductPeriodDescriptionMapid,jdbcType=VARCHAR},
+            </if>
+            <if test="gdshopProductQuantityDescriptionMapid != null">
+                #{gdshopProductQuantityDescriptionMapid,jdbcType=VARCHAR},
+            </if>
+            <if test="gdshopProductdefaultquantitytypeid != null">
+                #{gdshopProductdefaultquantitytypeid,jdbcType=VARCHAR},
+            </if>
+            <if test="defaultquantityvalue != null">
+                #{defaultquantityvalue,jdbcType=VARCHAR},
+            </if>
+            <if test="gdshopProductdefaultdurationtypeid != null">
+                #{gdshopProductdefaultdurationtypeid,jdbcType=VARCHAR},
+            </if>
+            <if test="defaultdurationvalue != null">
+                #{defaultdurationvalue,jdbcType=VARCHAR},
+            </if>
+            <if test="xpathQuery != null">
+                #{xpathQuery,jdbcType=VARCHAR},
+            </if>
+            <if test="gdshopProductXsdid != null">
+                #{gdshopProductXsdid,jdbcType=VARCHAR},
+            </if>
+            <if test="registryfee != null">
+                #{registryfee,jdbcType=VARCHAR},
+            </if>
+            <if test="downloadFilepath != null">
+                #{downloadFilepath,jdbcType=VARCHAR},
+            </if>
+            <if test="infoLink != null">
+                #{infoLink,jdbcType=VARCHAR},
+            </if>
+            <if test="additionalInfoLoc != null">
+                #{additionalInfoLoc,jdbcType=VARCHAR},
+            </if>
+            <if test="modifydate != null">
+                #{modifydate,jdbcType=VARCHAR},
+            </if>
+            <if test="minShipping != null">
+                #{minShipping,jdbcType=VARCHAR},
+            </if>
+            <if test="rowversionid != null">
+                #{rowversionid,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+</mapper>

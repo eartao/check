@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.read.CatalogCountrymarketMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.generator.pojo.CatalogCountrymarket">
+    <result column="countryCode" jdbcType="VARCHAR" property="countrycode" />
+    <result column="catalog_marketID" jdbcType="VARCHAR" property="catalogMarketid" />
+    <result column="createDate" jdbcType="VARCHAR" property="createdate" />
+  </resultMap>
+  <insert id="insert" parameterType="com.example.demo.generator.pojo.CatalogCountrymarket">
+    insert into catalog_countryMarket (countryCode, catalog_marketID, createDate
+      )
+    values (#{countrycode,jdbcType=VARCHAR}, #{catalogMarketid,jdbcType=VARCHAR}, #{createdate,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.generator.pojo.CatalogCountrymarket">
+    insert into catalog_countryMarket
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="countrycode != null">
+        countryCode,
+      </if>
+      <if test="catalogMarketid != null">
+        catalog_marketID,
+      </if>
+      <if test="createdate != null">
+        createDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="countrycode != null">
+        #{countrycode,jdbcType=VARCHAR},
+      </if>
+      <if test="catalogMarketid != null">
+        #{catalogMarketid,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null">
+        #{createdate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Price Check Tool</title>
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/jQueryForm.js"></script>
+
+    <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+    <link href="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+
+    <script src="https://cdn.bootcss.com/avalon.js/2.0s/avalon.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/window.css}">
+    <script src="/window.js"></script>
+    <style type="text/css">
+        .mask {
+            position: absolute;
+            top: 0px;
+            filter: alpha(opacity=60);
+            background-color: #777;
+            z-index: 1002;
+            left: 0px;
+            opacity: 0.5;
+            -moz-opacity: 0.5;
+        }
+
+        .table thead tbody tr td {
+            vertical-align: middle;
+        }
+    </style>
+    <script>
+        var apac = ['en-AU', 'en-IN', 'en-PH', 'en-SG', 'zh-CN', 'zh-HK', 'en-HK', 'id-ID', 'ja-JP', 'ko-KR', 'th-TH', 'vi-VN', 'zh-SG', 'zh-TW', 'hi-IN', 'ta-IN', 'mr-IN', 'en-MY', 'en-NZ'];
+        var canada = ['fr-CA', 'en-CA'];
+        var emea = ['en-GB', 'en-ZA', 'es-ES', 'de-DE', 'fr-FR', 'it-IT', 'tr-TR', 'nl-NL', 'da-DK', 'fi-FI', 'el-GR', 'nb-NO', 'pl-PL', 'sv-SE', 'pt-PT', 'de-AT', 'fr-BE', 'de-CH', 'fr-CH', 'it-CH', 'nl-BE', 'uk-UA', 'en-AE', 'en-IL', 'en-PK', 'en-IE'];
+        var latam = ['pt-BR', 'es-CL', 'es-CO', 'es-MX', 'es-PE', 'es-VE', 'es-AR'];
+        var us = ['es-US', 'en-US'];
+        $(function () {
+            //加载多选框的数据
+            var a = $("#APAC");
+            var b = $("#Canada1");
+            var c = $("#EMEA1");
+            var d = $("#LatAm1");
+            var e = $("#UnitedStates1");
+            a.append("<button type=\"button\" class=\"btn btn-primary\" style=\"margin: 10px;\" onclick=\"CheckAll(this,vm.markets1,vm.aaa,1)\">APAC</button>");
+            b.append("<button type=\"button\" class=\"btn btn-primary\" style=\"margin: 10px;\" onclick=\"CheckAll(this,vm.markets2,vm.bbb,2)\">Canada</button>");
+            c.append("<button type=\"button\" class=\"btn btn-primary\" style=\"margin: 10px;\" onclick=\"CheckAll(this,vm.markets3,vm.ccc,3)\">EMEA</button>");
+            d.append("<button type=\"button\" class=\"btn btn-primary\" style=\"margin: 10px;\" onclick=\"CheckAll(this,vm.markets4,vm.ddd,4)\">LatAm</button>");
+            e.append("<button type=\"button\" class=\"btn btn-primary\" style=\"margin: 10px;\" onclick=\"CheckAll(this,vm.markets5,vm.eee,5)\">UnitedStates</button>");
+            for (var i = 0; i < apac.length; i++) {
+                a.append("<label><input type='checkbox' value=" + apac[i] + " onclick='Choose(this)'/>" + apac[i] + "</label>");
+            }
+            for (var i = 0; i < canada.length; i++) {
+                b.append("<label><input type='checkbox' value=" + canada[i] + " onclick='Choose(this)'/>" + canada[i] + "</label>");
+            }
+            for (var i = 0; i < emea.length; i++) {
+                c.append("<label><input type='checkbox' value=" + emea[i] + " onclick='Choose(this)'/>" + emea[i] + "</label>");
+            }
+            for (var i = 0; i < latam.length; i++) {
+                d.append("<label><input type='checkbox' value=" + latam[i] + " onclick='Choose(this)'/>" + latam[i] + "</label>");
+            }
+            for (var i = 0; i < us.length; i++) {
+                e.append("<label><input type='checkbox' value=" + us[i] + " onclick='Choose(this)'/>" + us[i] + "</label>");
+            }
+        });
+
+        function CheckAll(t, obj, check, num) {
+            $("#h4").removeAttr("hidden");
+            var ids = [];
+            var popoverContent = $($(t).parent());
+            popoverContent.find("input[type=checkbox]").each(function (i, th) {
+                th.checked = check;
+                if (check) {
+                    ids.push($(th).val());
+                    // name += $(th).parent().text() + ",";
+                    // ids += $(th).val() + ",";
+                } else {
+                    ids.splice(i, 1);
+                }
+            });
+            if (check) {
+                vm.market = vm.market.concat(ids);
+                $("#txt").val(vm.market);
+            } else {
+                var mar = obj;
+                var market = vm.market;
+                for (var i = market.length - 1; i >= 0; i--) {
+                    a = market[i];
+                    for (var j = mar.length - 1; j >= 0; j--) {
+                        b = mar[j];
+                        if (a == b) {
+                            market.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+                vm.market = market;
+                $("#txt").val(vm.market);
+            }
+            ;
+            if (num == 1) {
+                vm.aaa = !check;
+            }
+            if (num == 2) {
+                vm.bbb = !check;
+            }
+            if (num == 3) {
+                vm.ccc = !check;
+            }
+            if (num == 4) {
+                vm.ddd = !check;
+            }
+            if (num == 5) {
+                vm.eee = !check;
+            }
+            // name = name.substr(0, name.length - 1);
+            // ids = ids.substr(0, ids.length - 1);
+
+            // $("#ids").val(ids);
+        }
+
+        //勾选某一个操作
+        function Choose(t) {
+            $("#h4").removeAttr("hidden");
+            var oldName = $("#txt").val();
+            var name = oldName == "" ? "," + $("#txt").val() : "," + $("#txt").val() + ",";
+            var newName = $(t).parent().text();
+            var newid = $(t).val();
+
+            if (t.checked) {//选中的操作
+                $("#txt").val(name += newName + ",");
+                vm.market.push(newid);
+            } else {//去掉选中的操作
+                var index = name.indexOf("," + newName + ",");
+                var len = newName.length;
+                name = name.substring(0, index) + name.substring(index + len + 1, name.length);
+                var len = newid.length;
+
+                var market = vm.market;
+                for (var i = market.length - 1; i >= 0; i--) {
+                    if (market[i] == newid) {
+                        market.splice(i, 1);
+                    }
+                }
+                vm.market = market;
+            }
+            name = name.substr(1, name.length - 2);
+            $("#txt").val(name);
+        }
+    </script>
+
+    <script>
+        function deleInput(obj) {
+            var id = obj.id;
+            $("#" + id).remove();
+            vm.globle--;
+            <!--vm.globleId&#45;&#45;;-->
+        }
+    </script>
+
+    <script>
+        var viewmodel = avalon.define({
+            $id: "viewmodel",
+            name: '',
+            c: "",
+            datalist: {},
+
+            pfId: "",
+            text: "GET",
+            trClick: function (obj) {
+                viewmodel.pfId = obj.pfId;
+                <!--$("#h3").removeAttr("hidden");-->
+                $("#h4").removeAttr("hidden");
+            },
+            request: function () {
+                $("#mask").css("height", $(document).height());
+                $("#mask").css("width", $(document).width());
+                $("#mask").show();
+                $.ajax({
+                    type: "post",
+                    data: {name: viewmodel.name},
+                    url: "/getProductInfo",
+                    success: function (data) {
+                        $("#mask").hide();
+                        if (data.code == 1) {
+                            win.alert("", data.message);
+                            return;
+                        }
+                        if (data.object.length == 0) {
+                            $('.btn-primary').removeClass("btn-primary").addClass("btn-danger");
+                            viewmodel.text = "Nothing!";
+                            // style="display: none"
+                            $("#table1").attr("style", "display: none");
+                            viewmodel.datalist = data.object;
+                            return;
+                        }
+                        $('.btn-primary').removeClass("btn-primary").addClass("btn-success");
+                        $("#table1").removeAttr("style");
+                        $("#table1").removeAttr("hidden");
+                        viewmodel.datalist = data.object;
+                        viewmodel.text = "SUCCESS";
+
+                    }
+                });
+            }
+        });
+    </script>
+    <script>
+        var vm = avalon.define({
+                $id: "result",
+                dataTr: [],
+                url: "https://godaddy.com/",
+                resultButton: "RESULT",
+                datalist1: {},
+                aaa: true,
+                bbb: true,
+                ccc: true,
+                ddd: true,
+                eee: true,
+                globleId: 0,
+                globle: 0,
+                click: function () {
+                    if ($("#marketHidden").attr("hidden") == "hidden") {
+                        $("#marketHidden").removeAttr("hidden");
+                    } else {
+                        $("#marketHidden").attr("hidden", "hidden");
+                    }
+                },
+            <!--addInput: function(){-->
+            <!--var globleId = vm.globleId+1;-->
+            <!--var div = "div"+globleId;-->
+            <!--$("#baseDiv").append("<div id="+div+" >\n" +-->
+            < !--"                            <label>Page" + globleId + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>\n" + -- >
+            <!--"                            <input ms-duplex=\"@url\" name=\"url\"    type=\"url\" class=\"form-control\"  style=\"width: 455px\"/><br>\n" +-->
+            < !--"                            <label>saleXpath" + globleId + "&nbsp;</label>\n" + -- >
+            <!--"                            <input ms-duplex=\"@saleXpath\" name=\"saleXpath\"   type=\"url\" class=\"form-control\"  style=\"width: 750px\"/><br>\n" +-->
+            < !--"                            <label>listXpath" + globleId + "&nbsp;&nbsp;</label>\n" + -- >
+            <!--"                            <input ms-duplex=\"@listXpath\"  name=\"listXpath\"   type=\"url\" class=\"form-control\"  style=\"width: 750px\"/>\n" +-->
+            < !--"                            <button type=\"button\" class=\"btn btn-danger\" style=\"margin: 10px;\" onclick=\"deleInput(this)\" id=" + div + ">X</button>\n" + -- >
+            < !--"                    </div>");
+        -- >
+        <!--vm.globleId = vm.globleId+1;-->
+        <!--vm.globle = vm.globle + 1;-->
+
+        <!--},-->
+        listXpath
+        :
+        "",
+            saleXpath
+        :
+        "",
+            market
+        :
+        [],
+            markets1
+        :
+        ['en-AU', 'en-IN', 'en-PH', 'en-SG', 'zh-CN', 'zh-HK', 'en-HK', 'id-ID', 'ja-JP', 'ko-KR', 'th-TH', 'vi-VN', 'zh-SG', 'zh-TW', 'hi-IN', 'ta-IN', 'mr-IN', 'en-MY', 'en-NZ'],
+            markets2
+        :
+        ['fr-CA', 'en-CA'],
+            markets3
+        :
+        ['en-GB', 'en-ZA', 'es-ES', 'de-DE', 'fr-FR', 'it-IT', 'tr-TR', 'nl-NL', 'da-DK', 'fi-FI', 'el-GR', 'nb-NO', 'pl-PL', 'sv-SE', 'pt-PT', 'de-AT', 'fr-BE', 'de-CH', 'fr-CH', 'it-CH', 'nl-BE', 'uk-UA', 'en-AE', 'en-IL', 'en-PK', 'en-IE'],
+            markets4
+        :
+        ['pt-BR', 'pt-BR', 'es-CL', 'es-CO', 'es-CO', 'es-MX', 'es-PE', 'es-VE'],
+            markets5
+        :
+        ['es-US', 'en-US'],
+        })
+    </script>
+    <script>
+        var obj = new Array();
+        var dataHead = new Array();
+        $.ajax({
+            url: 'getLable',
+            type: 'get',
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == 1) {
+                    win.alert("", data.message);
+                } else {
+                    $.each(data.object, function (i, v) {
+                    <
+                        !-- < span
+                    class
+                        = "label label-danger" > 危险标签 < /span>-->
+                        $("#lables").append("<button class='btn btn-danger' name=" + v.id + "  onclick='getEdit(this);'>" + v.productname + "</button>");
+                    })
+                }
+            }
+        });
+    </script>
+    <script>
+        function addInput() {
+            var globleId = vm.globleId + 1;
+            var div = "div" + globleId;
+            <!--ms-controller=\"aa\"-->
+            $("#baseDiv").append("<div id=" + div + " >\n" +
+                "                            <label>Page" + globleId + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>\n" +
+                "                            <input ms-duplex=\"@url\" name=\"url\"    type=\"url\" class=\"form-control\"  style=\"width: 455px\"/><br>\n" +
+                "                            <label>saleXpath" + globleId + "&nbsp;</label>\n" +
+                "                            <input ms-duplex=\"@saleXpath\" name=\"saleXpath\"   type=\"url\" class=\"form-control\"  style=\"width: 750px\"/><br>\n" +
+                "                            <label>listXpath" + globleId + "&nbsp;&nbsp;</label>\n" +
+                "                            <input ms-duplex=\"@listXpath\"  name=\"listXpath\"   type=\"url\" class=\"form-control\"  style=\"width: 750px\"/>\n" +
+                "                            <button type=\"button\" class=\"btn btn-danger\" style=\"margin: 10px;\" onclick=\"deleInput(this)\" id=" + div + ">X</button>\n" +
+                "                    </div>");
+            vm.globleId = vm.globleId + 1;
+            vm.globle = vm.globle + 1;
+        }
+
+        function getResult() {
+            var options = {
+                type: 'post',
+                dataType: 'json',
+                url: "/getResult",
+                data: {pfId: viewmodel.pfId, markets: vm.market.toString()},
+                success: function (data) {
+                    $("#mask").hide();
+                    if (data.code == 1) {
+                        win.alert("", data.message);
+                    } else {
+                        dataHead = data.object.head;
+                        obj = data.object.data;
+                        <!--vm.dataTr = dataHead;-->
+                        <!--vm.datalist1 = obj;-->
+                        $("#trId").empty();
+                        $("#trId1").html("");
+                        $.each(dataHead, function (i, v) {
+                            $("#trId").append("<td class='danger'><font size='3'><strong>" + v + "</strong></font></td>");
+                        });
+                        $.each(obj, function (i, v) {
+                            $("#trId1").append("<tr>");
+                            $.each(v, function (a, b) {
+                                $("#trId1").append("<td>" + b + "</td>");
+                            });
+                            $("#trId1").append("</tr>");
+                        });
+                        <!--$("td").css("background","pink");-->
+                        $("#trId1").find("td").each(function (i, th) {
+                            $(th).css("background", "#f2dede");
+                            $(th).css("padding", "8px");
+                            $(th).css("line-height", "1.42857143");
+                            $(th).css("vertical-align", "top");
+                        });
+                        dataHead = [];
+                        obj = [];
+                        $("#table1").attr("hidden", "hidden");
+                        $("#table2").removeAttr("hidden");
+                    }
+                }
+            };
+            $("#mask").css("height", $(document).height());
+            $("#mask").css("width", $(document).width());
+            $("#mask").show();
+            $("#ajaxForm").ajaxSubmit(options);
+        }
+
+        function saveInput() {
+            var option = {
+                type: 'post',
+                dataType: 'json',
+                url: '/saveInput',
+                data: {pfId: viewmodel.pfId, productName: viewmodel.name},
+                success: function (data) {
+                    win.alert("", data.message);
+                }
+            }
+            $("#ajaxForm").ajaxSubmit(option);
+        }
+
+        function getEdit(obj) {
+            var data = obj.name;
+            $("#baseDiv").find("div").each(function (i, th) {
+                if (typeof ($(th).attr("id")) != "undefined") {
+                    $(th).remove();
+                }
+            });
+            $.ajax({
+                type: 'post',
+                dateType: 'json',
+                url: '/getEdit',
+                data: {id: data},
+                success: function (data) {
+                    if (data.code == 1) {
+                        win.alert("", data.message);
+                    } else {
+                        var url = data.object.url.split(",");
+                        var listxpath = data.object.listxpath.split(",");
+                        var salexpath = data.object.salexpath.split(",");
+                        var arry = [];
+                        $("#productId").val(data.object.productname);
+                        viewmodel.pfId = data.object.pfid;
+                        for (var i = 1; i < url.length; i++) {
+                            addInput();
+                        }
+                        $.each(url, function (i, v) {
+                            arry.push(v);
+                            arry.push(salexpath[i]);
+                            arry.push(listxpath[i]);
+                        })
+                        $("#baseDiv").find("input").each(function (i, v) {
+                            $(v).val(arry[i]);
+                        });
+                        <!--$("#h3").removeAttr("hidden");-->
+                        $("#h4").removeAttr("hidden");
+                    }
+                }
+            })
+        }
+    </script>
+
+</head>
+
+<body ms-controller="result">
+<div id="mask" class="mask"></div>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <h2 class="text-center text-success">
+                Price Check Tool
+            </h2>
+            <div class="btn-group" id="lables">
+                <button class="btn btn-default" ms-click="@click">Markets</button>
+            </div>
+            <div id="marketHidden" hidden="hidden">
+                <div id="APAC"></div>
+                <div id="Canada1"></div>
+                <div id="EMEA1"></div>
+                <div id="LatAm1"></div>
+                <div id="UnitedStates1"></div>
+            </div>
+            <div ms-controller="viewmodel">
+                <form role="form" class="form-inline" id="ajaxForm">
+                    <input type="text" id="txt" placeholder="market" style="width: 2000px" hidden="hidden">
+                    <div>
+                        <label>product name&nbsp;</label>
+                        <input ms-duplex="@name" type="text" id="productId" class="form-control" style="width: 425px"/>
+                        <input ms-duplex="@pfId" type="text" placeholder="pfId" id="pfId" class="form-control"
+                               style="width: 85px"/>
+                        <button type="button" class="btn btn-primary" style="margin: 1px;" ms-click="@request">
+                            {{@text}}
+                        </button>
+                    </div>
+                    <div id="baseDiv">
+                        <div>
+                            <label>Page&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <input ms-duplex="@url" name="url" id="urlId" type="url" class="form-control"
+                                   style="width: 455px"/>
+                            <!--<button type="button" class="btn btn-primary" style="margin: 10px;" ms-click="@addInput">+</button>-->
+                            <button type="button" class="btn btn-primary" style="margin: 10px;" onclick="addInput()">+
+                            </button>
+                            <!--<button type="button" class="btn btn-success" style="margin: 1px;"  ms-click="@result">{{@resultButton}}</button>-->
+                            <button type="button" class="btn btn-success" style="margin: 1px;" onclick="getResult();">
+                                {{@resultButton}}
+                            </button>
+                        </div>
+                        <div>
+                            <label>saleXpath&nbsp;</label>
+                            <input ms-duplex="@saleXpath" id="saleXpathId" name="saleXpath" type="url"
+                                   class="form-control" style="width: 750px"/>
+                        </div>
+                        <div>
+                            <label>listXpath&nbsp;&nbsp;</label>
+                            <input ms-duplex="@listXpath" name="listXpath" id="listXpathId" type="url"
+                                   class="form-control" style="width: 750px"/>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-success" style="margin: 1px;" onclick="saveInput();">SAVE
+                    </button>
+            </div>
+            <div>
+                <!--<h4 style="color:red" hidden="hidden" id="h3">pfId:{{@pfId}}</h4>-->
+                <h4 style="color:red" hidden="hidden" id="h4">market：{{@market}}</h4>
+            </div>
+            </form>
+
+            <table class="table table-condensed" id="table1" hidden="hidden">
+                <thead>
+                <tr>
+                    <td class="danger"><font size="3"><strong>pfId</strong></font></td>
+                    <td class="info"><font size="3"><strong>name</strong></font></td>
+                    <td class="info"><font size="3"><strong>description1</strong></font></td>
+                    <td class="info"><font size="3"><strong>description2</strong></font></td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ms-for="el in @datalist" ms-click="@trClick(el)">
+                    <td class="danger">{{el.pfId}}</td>
+                    <td class="info">{{el.name}}</td>
+                    <td class="info">{{el.description1}}</td>
+                    <td class="info">{{el.description2}}</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <form role="form" class="form-inline">
+            <div class="col-md-12 column">
+                <table class="table table-striped" id="table2" hidden="hidden">
+                    <thead>
+                    <tr id="trId">
+                        <td class="danger"><font size="3"><strong></strong></font></td>
+                        <!--<td class="danger" ms-for="el in @dataTr" ><font size="3"><strong>{{el}}</strong></font></td>-->
+                    </tr>
+                    </thead>
+                    <tbody id="trId1">
+                    <!--<tr ms-for="el in @datalist1">-->
+                    <!--<td class="danger" ms-for="al in el">{{al}}</td>-->
+                    <!--</tr>-->
+                    </tbody>
+                </table>
+            </div>
+
+        </form>
+
+        <h4 class="text-center">
+            <small><cite>Please contact the administrator if you have any questions</cite></small>
+        </h4>
+        <h4 class="text-center">
+            <small><cite>email:gtao@godaddy.com</cite></small>
+        </h4>
+        <h4 class="text-center">
+            <small><cite>tao</cite></small>
+        </h4>
+    </div>
+</div>
+</div>
+</body>
+</html>

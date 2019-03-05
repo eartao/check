@@ -1,0 +1,115 @@
+#color-input-red +label{
+    display: block;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: absolute;
+    top: 2px;
+    left: 15px;
+    background: rgba(240, 84, 77, 1);;
+}
+
+#color-input-red:checked +label::before{
+    display: block;
+    content: "\2714";
+    text-align: center;
+    font-size: 16px;
+    color: white;
+}
+input[type=checkbox]{
+    visibility: hidden;
+}
+#color-input-orange +label{
+    display: block;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: absolute;
+    top: 2px;
+    left: 15px;
+    background: rgba(234, 152, 54, 1);
+}
+
+#color-input-orange:checked +label::before{
+    display: block;
+    content: "\2714";
+    text-align: center;
+    font-size: 16px;
+    color: white;
+}
+
+#color-input-yellow +label{
+    display: block;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: absolute;
+    top: 2px;
+    left: 15px;
+    background: rgba(230, 192, 58, 1);
+}
+
+#color-input-yellow:checked +label::before{
+    display: block;
+    content: "\2714";
+    text-align: center;
+    font-size: 16px;
+    color: white;
+}
+
+#color-input-green +label{
+    display: block;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: absolute;
+    top: 2px;
+    left: 15px;
+    background: rgba(95, 189, 65, 1);
+}
+
+#color-input-green:checked +label::before{
+    display: block;
+    content: "\2714";
+    text-align: center;
+    font-size: 16px;
+    color: white;
+}
+
+#color-input-blue +label{
+    display: block;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: absolute;
+    top: 2px;
+    left: 15px;
+    background: rgba(61, 170, 230, 1);
+}
+
+#color-input-blue:checked +label::before{
+    display: block;
+    content: "\2714";
+    text-align: center;
+    font-size: 16px;
+    color: white;
+}
+
+#color-input-purple +label{
+    display: block;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: absolute;
+    top: 2px;
+    left: 15px;
+    background: rgba(195, 122, 211, 1);
+}
+
+#color-input-purple:checked +label::before{
+    display: block;
+    content: "\2714";
+    text-align: center;
+    font-size: 16px;
+    color: white;
+}

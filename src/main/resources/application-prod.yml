@@ -1,0 +1,17 @@
+spring:
+  profiles:
+    active: prod
+  thymeleaf:
+    cache: false
+    suffix: .html
+  datasource:
+       driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+       read:
+         jdbcUrl: jdbc:sqlserver://P3TWSQL02\PSQL;databaseName=gdMasterCatalog;integratedSecurity=true;
+       write:
+         jdbcUrl: jdbc:sqlserver://P3PWGDEYE03;databaseName=GDEye
+         username: sa
+         password: mko0MKO)m
+
+server:
+  port: 8081
